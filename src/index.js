@@ -38,9 +38,33 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
+    let result = '';
+
+    // Break the input string into chunks of 10 characters
+    for (let i = 0; i < expr.length; i += 10) {
+        const chunk = expr.slice(i, i + 10);
+
+        if (chunk === '**********') {
+            result += ' ';  // Handle space
+        } else {
+            // Replace '10' with '.', '11' with '-', remove '00'
+            let morseCode = '';
+            for (let j = 0; j < 10; j += 2) {
+                const symbol = chunk.slice(j, j + 2);
+                if (symbol === '10') {
+                    morseCode += '.';
+                } else if (symbol === '11') {
+                    morseCode += '-';
+                }
+            }
+            // Convert morse code to the corresponding letter
+            result += MORSE_TABLE[morseCode];
+        }
+    }
+
+    return result;
 }
 
 module.exports = {
     decode
-}
+};
